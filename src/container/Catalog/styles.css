@@ -1,6 +1,7 @@
 
 .catalog-container {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -48,4 +49,24 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+#loadMore {
+  width: 200px;
+  color: #fff;
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  background-color: #1B7AC2;
+  transition: .3s;
+}
+
+#loadMore:hover {
+  color: #1B7AC2;
+  background-color: #fff;
+  border: 1px solid #1B7AC2;
+  text-decoration: none;
 }
