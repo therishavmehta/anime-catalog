@@ -13,13 +13,14 @@ function Catalog(props) {
 
     useLayoutEffect(() => {
         getCards();
-    }, [queries]);
+    }, [queries.page]);
 
     const getData = async (queries) => {
-        const {text, limit, page=1} = queries;
+        const {text='', limit, page=1} = queries;
         try {
+            const notSensitiveText = text.toLowerCase();
             setLoadingMore(true);
-            const getResponse = await fetch(`https://api.jikan.moe/v3/search/anime?q=${text}&limit=${limit}&page=${page}`);
+            const getResponse = await fetch(`https://api.jikan.moe/v3/search/anime?q=${notSensitiveText}&limit=${limit}&page=${page}`);
             const response = await getResponse.json();
             return response;
         } catch(error) {
@@ -43,20 +44,33 @@ function Catalog(props) {
         });
         return cards;
     }
-    const loadMore = async () => {
-        setQueries(({page, ...otherProps}) => ({page: page+1, ...otherProps}));
+    const loadMore = () => {
+        setQueries(({page=1, ...otherProps}) => ({page: page+1, ...otherProps}));
     }
+
+    const handleInputChange = (event) => {
+        setQueries(({text, ...otherProps}) => ({[event.target.name]: event.target.value, ...otherProps}));
+    }
+
+    const fetchNewData = () => {
+        setCards([]);
+        setQueries(({page, ...otherProps}) => ({page:1, ...otherProps}));
+        getCards();
+    }
+
     return (
         <div className="catalog-container">
             <div className="search-box">
-                <input id="search-query" type="text" placeholder="search for an anime, e.g. Naruto" />
-                <button id="search">Go</button>
+                <input id="search-query" name="text" type="text" value={queries.text}
+                placeholder="search for an anime, e.g. Naruto"
+                onChange={(event) => handleInputChange(event)}/>
+                <button id="search" onClick={() => fetchNewData()}>Go</button>
             </div>
             <div className="card-content">
                 {cards}
             </div>
             <Spinner />
-            <a id="loadMore" onClick={() => loadMore()}>Load more...</a>
+            <a className="loadMore" onClick={loadMore}>Load more...</a>
         </div>
     )
 }
