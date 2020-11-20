@@ -1,5 +1,7 @@
-import ContentCard from './ContentCard';
+import ContentCard from './contentCard';
+import Spinner from './spinner'
 
 export {
-    ContentCard
+    ContentCard,
+    Spinner
 };

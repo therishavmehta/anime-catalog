@@ -1,5 +1,5 @@
 import { React, useLayoutEffect, useState } from 'react';
-import { ContentCard } from '../../components';
+import { ContentCard, Spinner } from '../../components';
 import './styles.css';
 
 function Catalog(props) {
@@ -9,6 +9,7 @@ function Catalog(props) {
         limit: 16,
         page: 1,
     });
+    const [isLoadingMore, setLoadingMore] = useState(false);
 
     useLayoutEffect(() => {
         getCards();
@@ -17,11 +18,14 @@ function Catalog(props) {
     const getData = async (queries) => {
         const {text, limit, page=1} = queries;
         try {
+            setLoadingMore(true);
             const getResponse = await fetch(`https://api.jikan.moe/v3/search/anime?q=${text}&limit=${limit}&page=${page}`);
             const response = await getResponse.json();
             return response;
         } catch(error) {
             throw error;
+        } finally {
+            setLoadingMore(false);
         }
     }
 
@@ -51,6 +55,7 @@ function Catalog(props) {
             <div className="card-content">
                 {cards}
             </div>
+            <Spinner />
             <a id="loadMore" onClick={() => loadMore()}>Load more...</a>
         </div>
     )

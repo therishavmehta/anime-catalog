@@ -1,5 +1,4 @@
 .card {
- height: 230px;
  width: 150px;
  margin: 10px;
  border-radius: 8px;
@@ -25,17 +24,10 @@
 }
 
 .card-name {
-  height: 40px;
-    width: 250px;
-    place-items: center;
-  padding: 0 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 250px;
+  padding: 0 10px;
   font-size: 14px;
   color: #343434;
   font-weight: 700;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow: visible;
 }
