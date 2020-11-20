@@ -1,0 +1,51 @@
+
+.catalog-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-box input {
+  background: rgba(255,255,255,.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.4);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  color: #ccc;
+  outline: 0;
+  border-right: transparent;
+}
+
+.search button {
+ background:rgba(255,255,255,.05);
+ border-top-right-radius:8px;
+ border-bottom-right-radius:8px;
+ border-right:1px solid rgba(255,255,255,.4);
+ border-top:1px solid rgba(255,255,255,.4);
+ border-bottom:1px solid rgba(255,255,255,.4);
+ border-left:transparent;
+ width:100%;
+ box-sizing:border-box;
+ color:rgba(255,255,255,.8);
+ cursor:pointer
+}
+
+.card-content {
+  max-width: 800px;
+  padding: 40px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
