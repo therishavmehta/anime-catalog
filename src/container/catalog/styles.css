@@ -82,6 +82,11 @@ input:-webkit-autofill,
   font-weight: 100
 }
 
+.api-text {
+  color: rgba(255,255,255, 1);;
+  font-weight: 100
+}
+
 .loadMore:hover {
   color: #1B7AC2;
   background-color: #fff;

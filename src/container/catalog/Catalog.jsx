@@ -86,18 +86,19 @@ function Catalog(props) {
         <div className="catalog-container">
             <div className="search-box">
                 <input id="search-query" name="text" type="text" value={inputValue}
-                placeholder="search for an anime, e.g. Naruto" autoComplete="off"
-                onChange={(event) => handleInputValue(event)} onKeyDown={event => triggerEvent(event)}/>
+                    placeholder="search for an anime, e.g. Naruto" autoComplete="off"
+                    onChange={(event) => handleInputValue(event)} onKeyDown={event => triggerEvent(event)}/>
                 <button className="search-button" onClick={(event) => getNewData(event)}>Go</button>
             </div>
-            <div className="requesting">
-                Requesting: {api || 'API Request URL will appear here'}
+            <div>
+                <span className="requesting">Requesting: </span>
+                <span className="api-text">{api || 'API Request URL will appear here'}</span>
             </div>
             <div className="card-content">
                 {cards}
             </div>
             {isLoadingMore && <Spinner />}
-            {cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
+            {!isLoadingMore && cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
         </div>
     )
 }
