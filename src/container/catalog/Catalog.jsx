@@ -86,7 +86,7 @@ function Catalog(props) {
         <div className="catalog-container">
             <div className="search-box">
                 <input id="search-query" name="text" type="text" value={inputValue}
-                    placeholder="search for an anime, e.g. Naruto" autoComplete="off"
+                    placeholder="search for an anime, e.g. Deathnote" autoComplete="off"
                     onChange={(event) => handleInputValue(event)} onKeyDown={event => triggerEvent(event)}/>
                 <button className="search-button" onClick={(event) => getNewData(event)}>Go</button>
             </div>
