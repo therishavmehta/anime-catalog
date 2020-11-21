@@ -11,19 +11,25 @@ function Catalog(props) {
     });
     const [inputValue, setInputValue] = useState('');
     const [isLoadingMore, setLoadingMore] = useState(false);
+    const [api, setApi] = useState('');
     const {uri, topic} = props;
+
     useLayoutEffect(() => {
-        if(queries.text.length) {
-            getCards();
-        }
-    }, [queries.page, queries.text]);
+        (function() {
+            if (queries.text.length) {
+                getCards();
+            }
+        })();
+    }, [queries.page, queries.text, props]);
 
     const getData = async (queries) => {
-        const {text='', limit, page=1} = queries;
+        const {text='', limit, page=1 } = queries;
         try {
-            const notSensitiveText = text.toLowerCase();
             setLoadingMore(() => true);
-            const getResponse = await fetch(`${uri}/search/${topic}?q=${notSensitiveText}&limit=${limit}&page=${page}`);
+            const notSensitiveText = text.toLowerCase();
+            const query = `${uri}/search/${topic}?q=${notSensitiveText}&limit=${limit}&page=${page}`;
+            setApi(() => (`${uri}/search/${topic}?q=${notSensitiveText}`));
+            const getResponse = await fetch(query);
             const response = await getResponse.json();
             return response;
         } catch(error) {
@@ -37,7 +43,7 @@ function Catalog(props) {
         const { results } = await getData(queries);
         if(results) {
             const newCards = getCardInstance(results);
-            setCards((cards) => ([...cards, newCards]));
+            newCards.length && setCards((cards) => ([...cards, newCards]));
         }
     }
 
@@ -59,6 +65,12 @@ function Catalog(props) {
         setInputValue(event.target.value);
     }
 
+    const triggerEvent = (event) => {
+        if (event.key === 'Enter') {
+            getNewData(event);
+        }
+    }
+
     const getNewData = async (event) => {
         event.preventDefault();
         if(inputValue.length < 3) {
@@ -75,8 +87,11 @@ function Catalog(props) {
             <div className="search-box">
                 <input id="search-query" name="text" type="text" value={inputValue}
                 placeholder="search for an anime, e.g. Naruto" autoComplete="off"
-                onChange={(event) => handleInputValue(event)}/>
+                onChange={(event) => handleInputValue(event)} onKeyDown={event => triggerEvent(event)}/>
                 <button className="search-button" onClick={(event) => getNewData(event)}>Go</button>
+            </div>
+            <div className="requesting">
+                Requesting: {api || 'API Request URL will appear here'}
             </div>
             <div className="card-content">
                 {cards}
