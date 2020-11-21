@@ -27,7 +27,6 @@ function Catalog(props) {
             const response = await getResponse.json();
             return response;
         } catch(error) {
-            console.log(error);
             throw error;
         } finally {
             setLoadingMore(false);
