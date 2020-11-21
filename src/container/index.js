@@ -1,4 +1,4 @@
-import Catalog from './Catalog';
+import Catalog from './catalog';
 
 export  {
     Catalog

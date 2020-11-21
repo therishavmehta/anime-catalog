@@ -27,6 +27,7 @@ function Catalog(props) {
             const response = await getResponse.json();
             return response;
         } catch(error) {
+            console.log(error);
             throw error;
         } finally {
             setLoadingMore(false);
@@ -61,15 +62,20 @@ function Catalog(props) {
 
     const getNewData = async (event) => {
         event.preventDefault();
-        setCards([]);
-        setQueries(({ text, page, ...otherProps }) => ({ text: inputValue, page: 1, ...otherProps }));
+        if(inputValue.length < 3) {
+            alert("Error: Requires atleast 3 or more characters");
+            return;
+        } else if (queries.text !== inputValue) {
+            setCards([]);
+            setQueries(({ text, page, ...otherProps }) => ({ text: inputValue, page: 1, ...otherProps }));
+        }
     }
 
     return (
         <div className="catalog-container">
             <div className="search-box">
                 <input id="search-query" name="text" type="text" value={inputValue}
-                placeholder="search for an anime, e.g. Naruto"
+                placeholder="search for an anime, e.g. Naruto" autoComplete="off"
                 onChange={(event) => handleInputValue(event)}/>
                 <button className="search-button" onClick={(event) => getNewData(event)}>Go</button>
             </div>
