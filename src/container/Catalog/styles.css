@@ -18,31 +18,36 @@
   top: 0px;
   background-color: #1B7AC2;
   justify-content: center;
-
 }
 
+input:-webkit-autofill,
 .search-box input {
-  background: rgba(255,255,255,.05);
-  border-radius: 8px;
+  background: rgba(255,255,255,.05) !important;
+  border-top-left-radius:8px !important;
+  border-bottom-left-radius:8px;
   border: 1px solid rgba(255,255,255,.4);
   min-width: 100px;
   width: 500px;
   padding: 20px;
   box-sizing: border-box;
-  color: #ccc;
+  color: #ccc !important;
   outline: 0;
   border-right: transparent;
 }
 
-.search button {
+::-webkit-input-placeholder { /* Edge */
+  color: rgba(255,255,255,.5);
+}
+
+.search-button {
  background:rgba(255,255,255,.05);
- border-top-right-radius:8px;
- border-bottom-right-radius:8px;
+ border-top-right-radius: 8px;
+ border-bottom-right-radius: 8px;
  border-right:1px solid rgba(255,255,255,.4);
  border-top:1px solid rgba(255,255,255,.4);
  border-bottom:1px solid rgba(255,255,255,.4);
  border-left:transparent;
- width:100%;
+ width:50px;
  box-sizing:border-box;
  color:rgba(255,255,255,.8);
  cursor:pointer

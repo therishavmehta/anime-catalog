@@ -5,22 +5,25 @@ import './styles.css';
 function Catalog(props) {
     const [cards, setCards] = useState([]);
     const [queries, setQueries] = useState({
-        text: 'naruto',
+        text: '',
         limit: 16,
         page: 1,
     });
+    const [inputValue, setInputValue] = useState('');
     const [isLoadingMore, setLoadingMore] = useState(false);
-
+    const {uri, topic} = props;
     useLayoutEffect(() => {
-        getCards();
-    }, [queries.page]);
+        if(queries.text.length) {
+            getCards();
+        }
+    }, [queries.page, queries.text]);
 
     const getData = async (queries) => {
         const {text='', limit, page=1} = queries;
         try {
             const notSensitiveText = text.toLowerCase();
-            setLoadingMore(true);
-            const getResponse = await fetch(`https://api.jikan.moe/v3/search/anime?q=${notSensitiveText}&limit=${limit}&page=${page}`);
+            setLoadingMore(() => true);
+            const getResponse = await fetch(`${uri}/search/${topic}?q=${notSensitiveText}&limit=${limit}&page=${page}`);
             const response = await getResponse.json();
             return response;
         } catch(error) {
@@ -32,13 +35,15 @@ function Catalog(props) {
 
     const getCards = async () => {
         const { results } = await getData(queries);
-        const newCards = getCardInstance(results);
-        setCards((cards) => ([...cards, newCards]));
+        if(results) {
+            const newCards = getCardInstance(results);
+            setCards((cards) => ([...cards, newCards]));
+        }
     }
 
-    const getCardInstance = (list) => {
+    const getCardInstance = (list=[]) => {
         const cards = [];
-        list.forEach((anime) => {
+        list.length && list.forEach((anime) => {
             const {mal_id, ...otherProps} = anime;
             cards.push(<ContentCard key={mal_id} {...otherProps}/>)
         });
@@ -48,29 +53,31 @@ function Catalog(props) {
         setQueries(({page=1, ...otherProps}) => ({page: page+1, ...otherProps}));
     }
 
-    const handleInputChange = (event) => {
-        setQueries(({text, ...otherProps}) => ({[event.target.name]: event.target.value, ...otherProps}));
+
+    const handleInputValue = (event) => {
+        event.preventDefault();
+        setInputValue(event.target.value);
     }
 
-    const fetchNewData = () => {
+    const getNewData = async (event) => {
+        event.preventDefault();
         setCards([]);
-        setQueries(({page, ...otherProps}) => ({page:1, ...otherProps}));
-        getCards();
+        setQueries(({ text, page, ...otherProps }) => ({ text: inputValue, page: 1, ...otherProps }));
     }
 
     return (
         <div className="catalog-container">
             <div className="search-box">
-                <input id="search-query" name="text" type="text" value={queries.text}
+                <input id="search-query" name="text" type="text" value={inputValue}
                 placeholder="search for an anime, e.g. Naruto"
-                onChange={(event) => handleInputChange(event)}/>
-                <button id="search" onClick={() => fetchNewData()}>Go</button>
+                onChange={(event) => handleInputValue(event)}/>
+                <button className="search-button" onClick={(event) => getNewData(event)}>Go</button>
             </div>
             <div className="card-content">
                 {cards}
             </div>
-            <Spinner />
-            <a className="loadMore" onClick={loadMore}>Load more...</a>
+            {isLoadingMore && <Spinner />}
+            {cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
         </div>
     )
 }
