@@ -20,7 +20,6 @@
   justify-content: center;
 }
 
-input:-webkit-autofill,
 .search-box input {
   background-color: rgba(255,255,255,.05);
   border-top-left-radius:8px;
@@ -35,7 +34,7 @@ input:-webkit-autofill,
   border-right: transparent;
 }
 
-::-webkit-input-placeholder { /* Edge */
+::-webkit-input-placeholder {
   color: rgba(255,255,255,.5);
 }
 
