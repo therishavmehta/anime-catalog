@@ -20,22 +20,21 @@
   justify-content: center;
 }
 
-input:-webkit-autofill,
 .search-box input {
-  background-color: rgba(255,255,255,.05) !important;
-  border-top-left-radius:8px !important;
+  background-color: rgba(255,255,255,.05);
+  border-top-left-radius:8px;
   border-bottom-left-radius:8px;
   border: 1px solid rgba(255,255,255,.4);
   min-width: 100px;
   width: 500px;
   padding: 20px;
   box-sizing: border-box;
-  color: #ccc !important;
+  color: #ccc;
   outline: 0;
   border-right: transparent;
 }
 
-::-webkit-input-placeholder { /* Edge */
+::-webkit-input-placeholder {
   color: rgba(255,255,255,.5);
 }
 
@@ -55,13 +54,12 @@ input:-webkit-autofill,
 
 .card-content {
   max-width: 800px;
-  padding: 40px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(175px, 3fr));
+  box-sizing: border-box;
+  grid-gap: 10px;
 }
 
 .loadMore {
@@ -79,6 +77,11 @@ input:-webkit-autofill,
 
 .requesting {
   color: rgba(255,255,255,.4);;
+  font-weight: 100
+}
+
+.api-text {
+  color: rgba(255,255,255, 1);;
   font-weight: 100
 }
 
