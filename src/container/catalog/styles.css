@@ -60,6 +60,7 @@
   grid-template-columns: repeat(auto-fill, minmax(175px, 3fr));
   box-sizing: border-box;
   grid-gap: 10px;
+  justify-items: center;
 }
 
 .loadMore {

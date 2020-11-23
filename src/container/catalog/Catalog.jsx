@@ -16,6 +16,7 @@ function Catalog(props) {
     const [inputValue, setInputValue] = useState('');
     const [isLoadingMore, setLoadingMore] = useState(false);
     const [api, setApi] = useState('');
+    const [ lastPage, setLastPage ] = useState(0);
 
     useLayoutEffect(() => {
         (function() {
@@ -50,7 +51,10 @@ function Catalog(props) {
      * append cards
      */
     const getCards = async () => {
-        const { results } = await getData(queries);
+        const { results, last_page } = await getData(queries);
+        if(lastPage !== last_page) {
+            setLastPage(last_page);
+        }
         if(results) {
             const newCards = getCardInstance(results);
             newCards.length && setCards((cards) => ([...cards, newCards]));
@@ -131,7 +135,9 @@ function Catalog(props) {
                 {cards}
             </div>
             {isLoadingMore && <Spinner />}
-            {!isLoadingMore && cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
+            {lastPage !== queries.page &&
+                 !isLoadingMore &&
+                 cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
         </div>
     )
 }
