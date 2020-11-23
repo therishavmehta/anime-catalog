@@ -6,8 +6,7 @@ import './styles.css';
  * @param {Object} props - properties which are passed.
  * gets the required item for the card and return the structured node
  */
-function ContentCard(props) {
-    const { image_url, title, url } = props;
+function ContentCard({ image_url, title, url }) {
 
     /**
      *
