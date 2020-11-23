@@ -1,13 +1,16 @@
 import { React, useLayoutEffect, useState } from 'react';
 import { ContentCard, Spinner } from '../../components';
+
+import { connect } from 'react-redux';
+import { appendItem, addItem, intialiseData } from '../../redux/anime/anime.actions';
+
 import './styles.css';
 
 /**
  * Prepares the catlog of anime category
  */
 function Catalog(props) {
-    const { uri, topic } = props;
-    const [cards, setCards] = useState([]);
+    const { uri, topic, anime, appendData, intialiseData } = props;
     const [queries, setQueries] = useState({
         text: '',
         limit: 16,
@@ -24,7 +27,7 @@ function Catalog(props) {
                 getCards();
             }
         })();
-    }, [queries.page, queries.text, props]);
+    }, [queries.page, queries.text, uri, topic]);
 
     /**
      *
@@ -55,9 +58,8 @@ function Catalog(props) {
         if(lastPage !== last_page) {
             setLastPage(last_page);
         }
-        if(results) {
-            const newCards = getCardInstance(results);
-            newCards.length && setCards((cards) => ([...cards, newCards]));
+        if(results.length) {
+            results.length && appendData(results);
         }
     }
 
@@ -114,9 +116,16 @@ function Catalog(props) {
             alert("Error: Requires atleast 3 or more characters");
             return;
         } else if (queries.text !== inputValue) {
-            setCards([]);
+            intialiseData();
             setQueries(({ text, page, ...otherProps }) => ({ text: inputValue, page: 1, ...otherProps }));
         }
+    }
+
+    /**
+     * condition for render loading more
+     */
+    const shouldLoadMore = () => {
+        return lastPage !== queries.page && !isLoadingMore && anime.length;
     }
 
     return (
@@ -132,14 +141,22 @@ function Catalog(props) {
                 <span className="api-text">{api || 'API Request URL will appear here'}</span>
             </div>
             <div className="card-content">
-                {cards}
+                {getCardInstance(anime)}
             </div>
             {isLoadingMore && <Spinner />}
-            {lastPage !== queries.page &&
-                 !isLoadingMore &&
-                 cards.length ? <a className="loadMore" onClick={loadMore}>Load more...</a>: null}
+            {shouldLoadMore() ? <a className="loadMore" onClick={loadMore}>Load more...</a> : null}
         </div>
     )
 }
 
-export default Catalog;
+const mapStateToProps = state => ({
+    anime: state.animeReducer.currentAnime
+});
+
+const mapDispatchToProps = dispatch => ({
+    setNewData: anime => dispatch(addItem(anime)),
+    appendData: anime => dispatch(appendItem(anime)),
+    intialiseData: anime => dispatch(intialiseData())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
