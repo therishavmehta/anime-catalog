@@ -4,7 +4,7 @@ This project contains the search bar for searching the anime with the help of ht
 
 ## Deployment
 
-Deployed it on firebase for the view: https://anime-catalog.web.app/
+Deployed it on [firebase](https://anime-catalog.web.app/) for the view
 
 ## Available Scripts
 
